@@ -1,62 +1,62 @@
-import './style.css'
+import './style.css';
 
-
-const todoInput = document.getElementById('todo-input') as HTMLInputElement;
-const addBtn = document.getElementById('add-btn') as HTMLButtonElement
-const  todoList = document.getElementById('todo-list') as HTMLUListElement
-
-type Task ={
-  text :string
-  completed : boolean
-  createdAt : Date
+class Task {
+    constructor(
+        public text: string,
+        public completed: boolean = false,
+        public createdAt: Date = new Date()
+    ) {}
 }
 
-const tasks: Task[] = loadTask()
-tasks.forEach(addListItem)
+class TaskManager {
+    private tasks: Task[];
+    private todoList: HTMLUListElement;
+    private todoInput: HTMLInputElement;
+    private addBtn: HTMLButtonElement;
 
-addBtn?.addEventListener('click',()=>{
-  const text = todoInput?.value
-  // console.log(text)
- if(!text)return
+    constructor() {
+        this.todoInput = document.getElementById('todo-input') as HTMLInputElement;
+        this.addBtn = document.getElementById('add-btn') as HTMLButtonElement;
+        this.todoList = document.getElementById('todo-list') as HTMLUListElement;
+        this.tasks = this.loadTasks();
+        this.tasks.forEach(task => this.addListItem(task));
+        this.addBtn?.addEventListener('click', () => this.addTask());
+    }
 
- const newTask :Task ={
-  text ,
-  completed : false,
-  createdAt : new Date()
- }
+    private addTask(): void {
+        const text = this.todoInput?.value;
+        if (!text) return;
 
- console.log(newTask)
- tasks.push(newTask)
- addListItem(newTask)
- saveTasks()
- todoInput.value=''
+        const newTask = new Task(text);
+        this.tasks.push(newTask);
+        this.addListItem(newTask);
+        this.saveTasks();
+        this.todoInput.value = '';
+    }
 
-})
+    private addListItem(task: Task): void {
+        const li = document.createElement('li');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = task.completed;
+        checkbox.addEventListener('change', () => {
+            task.completed = checkbox.checked;
+            this.saveTasks();
+        });
+        const span = document.createElement('span');
+        span.innerText = task.text;
+        li.append(checkbox, span);
+        this.todoList?.appendChild(li);
+    }
 
+    private saveTasks(): void {
+        localStorage.setItem('TASKS', JSON.stringify(this.tasks));
+    }
 
- function addListItem(task : Task):void{
-  const li = document.createElement('li')
-  const checkbox = document.createElement('input')
-  checkbox.type = 'checkbox'
-  checkbox.checked = task.completed
-  checkbox.addEventListener('change',()=>{
-    task.completed = checkbox.checked
-    saveTasks()
-    console.log(task.completed)
-  })
-  const span = document.createElement('span')
-  span.innerText = task.text
-  li.append(checkbox,span)
-  todoList?.appendChild(li)
- }
+    private loadTasks(): Task[] {
+        const jsonTask = localStorage.getItem('TASKS');
+        return jsonTask ? JSON.parse(jsonTask) : [];
+    }
+}
 
-
- function saveTasks(): void{
-    localStorage.setItem('TASKS',JSON.stringify(tasks))
- }
-
- function loadTask():Task[]{
-  const jsonTask =localStorage.getItem('TASKS')
-  if(!jsonTask) return []
-  return JSON.parse(jsonTask)
- }
+new TaskManager();
