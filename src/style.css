@@ -1,20 +1,89 @@
-/* :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
 }
 
+/* Container */
+div {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  text-align: center;
+}
 
-#todo-list .checked {
+/* Title */
+h1 {
+  color: #333;
+}
+
+/* Input Field */
+#todo-input {
+  width: 70%;
+  padding: 8px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+}
+
+/* Add Button */
+#add-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#add-btn:hover {
+  background-color: #218838;
+}
+
+/* To-Do List */
+#todo-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+/* To-Do List Items */
+#todo-list li {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Checkbox */
+#todo-list input[type="checkbox"] {
+  margin-right: 10px;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+/* Task Text */
+#todo-list span {
+  flex-grow: 1;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Completed Task (Checked) */
+#todo-list input[type="checkbox"]:checked + span {
   text-decoration: line-through;
-  color: red  ;
-} */
+  color: gray;
+}
